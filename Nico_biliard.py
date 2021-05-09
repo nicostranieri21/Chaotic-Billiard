@@ -157,7 +157,7 @@ def get_intersection(line, object):
 def main(array):
     clock = pygame.time.Clock()
     run = True
-    for step in array[-1:]:
+    for step in array[:]:
         A,D = step
         pygame.draw.circle(window, "red", (300+A.x*150, 300-A.y*150), 4)
         pygame.draw.line(window, "red", (300+A.x*150, 300-A.y*150), (300+A.x*150+D.x*15, 300-A.y*150-D.y*15), 2)
