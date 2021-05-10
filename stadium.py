@@ -19,104 +19,15 @@ def clockwise(vx,vy,theta):
 #COLLIDE WITH LEFT SEMI-CIRCLE
 #BROKEN, SHOULD BE STARTED FROM SCRATCH,
 #MAYBE THERE IS EXACT FORMULA ONLINE
-def collideL(x,y,vx,vy,x0,y0):
+def collide(x,y,vx,vy,x0,y0):
     nx=x-x0
     ny=y-y0
     dnx=nx/((nx**2+ny**2)**0.5)
     dny=ny/((nx**2+ny**2)**0.5)
-    dvx=vx/((vx**2+vy**2)**0.5)
-    dvy=vy/((vx**2+vy**2)**0.5)
-    theta=math.acos((dnx*dvx+dny*dvy)/(((dvx**2+dvy**2)**0.5)*((dnx**2+dny**2)**0.5)))
-    #up
-    if y>=y0:
-        if dvx<=0 and dvy<=0:
-            if abs(dvx)>=abs(dnx):
-                vel=clockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-            else:
-                vel=counterclockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-        elif dvx<=0 and dvy>0:
-            vel=clockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-        else:
-            vel=counterclockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-    #down
-    else:
-        if dvx<=0 and dvy>=0:
-            if abs(dvx)<=abs(dnx):
-                vel=clockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-            else:
-                vel=counterclockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-        elif dvx>0 and dvx>=0:
-            vel=clockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-        else:
-            vel=counterclockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-    return vx,vy
-#COLLIDE WITH RIGHT SEMI-CIRCLE
-#BROKEN, SHOULD BE STARTED FROM SCRATCH,
-#MAYBE THERE IS EXACT FORMULA ONLINE        
-def collideR(x,y,vx,vy,x0,y0):
-    nx=x-x0
-    ny=y-y0
-    dnx=nx/((nx**2+ny**2)**0.5)
-    dny=ny/((nx**2+ny**2)**0.5)
-    dvx=vx/((vx**2+vy**2)**0.5)
-    dvy=vy/((vx**2+vy**2)**0.5)
-    theta=math.acos((dnx*dvx+dny*dvy)/(((dvx**2+dvy**2)**0.5)*((dnx**2+dny**2)**0.5)))
-    #up
-    if y>=y0:
-        if dvx>=0 and dvy<=0:
-            if abs(dvx)<=abs(dnx):
-                vel=clockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-            else:
-                vel=counterclockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-        elif dvx<=0 and dvy<0:
-            vel=clockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-        else:
-            vel=counterclockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-    #down
-    else:
-        if dvx>=0 and dvy>=0:
-            if abs(dvx)>=abs(dnx):
-                vel=clockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-            else:
-                vel=counterclockwise(vx,vy,theta)
-                vx=vel[0]
-                vy=vel[1]
-        elif dvx<0 and dvx>=0:
-            vel=counterclockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-        else:
-            vel=clockwise(vx,vy,theta)
-            vx=vel[0]
-            vy=vel[1]
-        
-    return vx, vy
+    dx=vx - 2*((dnx**2)*vx+dny*dnx*vy)
+    dy=vy - 2*((dnx*dny)*vx+(dny**2)*vy)
+    return dx, dy
+
 
 class Particle:
     def __init__(self,canvas,x,y,diameter,xVelocity,yVelocity,color,obstacles):
@@ -146,7 +57,7 @@ class Particle:
         if(self.x<=self.x0l and 
           (self.x+(dt*self.xVelocity)-self.x0l)**2+(self.y+(dt*self.yVelocity)-self.y0l)**2>=(self.radiusl)**2):
             #this is where we get new vector, but function needs work
-            vel=collideL(self.x,self.y,self.xVelocity,self.yVelocity,self.x0l,self.y0l)
+            vel=collide(self.x,self.y,self.xVelocity,self.yVelocity,self.x0l,self.y0l)
             self.xVelocity=vel[0]
             self.yVelocity=vel[1]
 
@@ -154,7 +65,7 @@ class Particle:
         if(self.x>=self.x0r and 
           (self.x+(dt*self.xVelocity)-self.x0r)**2+(self.y+(dt*self.yVelocity)-self.y0r)**2>=(self.radiusr)**2):
             #this is where we get new vector, but function needs work
-            vel=collideR(self.x,self.y,self.xVelocity,self.yVelocity,self.x0r,self.y0r)
+            vel=collide(self.x,self.y,self.xVelocity,self.yVelocity,self.x0r,self.y0r)
             self.xVelocity=vel[0]
             self.yVelocity=vel[1]
 
