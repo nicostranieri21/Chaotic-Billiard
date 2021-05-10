@@ -54,7 +54,7 @@ class Particle:
         self.y=coordinates[3]
       
         #checks if collision with left arc occured(I am pretty sure it works correctly)
-        if(self.x<=self.x0l and 
+        if(self.x<self.x0l and 
           (self.x+(dt*self.xVelocity)-self.x0l)**2+(self.y+(dt*self.yVelocity)-self.y0l)**2>=(self.radiusl)**2):
             #this is where we get new vector, but function needs work
             vel=collide(self.x,self.y,self.xVelocity,self.yVelocity,self.x0l,self.y0l)
@@ -62,7 +62,7 @@ class Particle:
             self.yVelocity=vel[1]
 
         #checks if collision with right arc occured(I am pretty sure it works correctly)
-        if(self.x>=self.x0r and 
+        elif(self.x>self.x0r and 
           (self.x+(dt*self.xVelocity)-self.x0r)**2+(self.y+(dt*self.yVelocity)-self.y0r)**2>=(self.radiusr)**2):
             #this is where we get new vector, but function needs work
             vel=collide(self.x,self.y,self.xVelocity,self.yVelocity,self.x0r,self.y0r)
@@ -71,7 +71,7 @@ class Particle:
 
         #checks if particle collided with top, bottom boundary
         #of billiard and calculates new velocity vector(works perfectly)
-        if(coordinates[3]<=(self.rectBord[0]) or coordinates[3]>=self.rectBord[1]):
+        elif(coordinates[3]<=(self.rectBord[0]) or coordinates[3]>=self.rectBord[1]):
             self.yVelocity = -self.yVelocity 
             
         self.canvas.move(self.image,self.xVelocity,self.yVelocity)
