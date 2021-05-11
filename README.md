@@ -1,6 +1,12 @@
 Short description for programs
 Everything is in python
-Uses mostly Tkinter matplotlib
+
+Uses PyGame and matplot:  //Nicolò
+
+1. Mathematical_Billiard.py
+Used for simulating both normal Square Billiard and Sinai Billiard using mathematical equation to compute the collisions
+
+Uses Tkinter matplotlib:  //Stefan
 
 1. defaultBilliard.py
 Used for simulating default rectangular billiard, aesthethic simulation only, gathers no data plots no graphs.
